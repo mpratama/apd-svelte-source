@@ -8,11 +8,11 @@
 	import GlovesSChart from './GlovesSChart.svelte';
 	import GlovesMChart from './GlovesMChart.svelte';
 	import GlovesLChart from './GlovesLChart.svelte';
+	import Footer from './Footer.svelte';
 	
-	export let data;
+	let data;
 	
 	axios.get("https://api.npoint.io/93dee45ef70ce97af907/").then(res => {
-	console.log(res.data);
 	data = res.data;
 	});
 	
@@ -26,3 +26,4 @@
 <GlovesSChart />
 <GlovesMChart />
 <GlovesLChart />
+<Footer />
