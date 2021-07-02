@@ -2,38 +2,37 @@
   import axios from 'axios';
   import Chart from 'svelte-frappe-charts';
   
-  let datachart;
-	
-	axios.get("https://api.npoint.io/93dee45ef70ce97af907/").then(res => {
-	datachart = res.data.chartdata.maskerbd;
-	});
-
-  let data = {
-    labels: [],
-    datasets: [
-      {
-        values: []
-      }
-    ]
-  };
-
   let chartRef;
   
-  function updateData() {
-    data = {
-      labels: datachart.x,
-      datasets: [
-        {
-          values: datachart.y
-        }
-      ]
-    };
-  }
-  
-  setTimeout(() => {
-	updateData();
-  }, 5000);
-  
+  async function getData() {
+		const res = await axios.get("https://api.npoint.io/93dee45ef70ce97af907/");
+		const text = await res;
+
+		if (res.request.status == 200) {
+			let datax = {
+				labels: text.data.chartdata.maskerbd.x,
+				datasets: [
+					{
+						values: text.data.chartdata.maskerbd.y
+					}
+				]
+			};
+			return datax;
+		} else {
+			throw new Error("Gagal menggambar grafik pengeluaran masker bedah");
+		}
+	}
+	
+	let datanya = getData();
+
 </script>
 
-<Chart data={data} type="line" bind:this={chartRef} title="Pengeluaran Masker Bedah" />
+
+{#await datanya}
+	<p>Membuat grafik pengeluaran masker bedah...</p>
+{:then data}
+	<Chart data={data} type="line" bind:this={chartRef} title="Pengeluaran Masker Bedah" />
+{:catch error}
+	<p style="color: red">{error.message}</p>
+{/await}
+

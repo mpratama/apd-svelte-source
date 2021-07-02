@@ -14,16 +14,21 @@
 	
 	axios.get("https://api.npoint.io/93dee45ef70ce97af907/").then(res => {
 	data = res.data;
+	//console.log(data);
 	});
 	
 </script>
 
 <Navbar />
 <TabelData data={data}/>
-<MsBedahChart />
-<MsN95Chart />
-<HazmatChart />
-<GlovesSChart />
-<GlovesMChart />
-<GlovesLChart />
+
+<div class="container">
+	<MsBedahChart />
+	<MsN95Chart />
+	<HazmatChart />
+	<GlovesSChart />
+	<GlovesMChart />
+	<GlovesLChart />
+</div>
+
 <Footer />

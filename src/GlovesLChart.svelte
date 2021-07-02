@@ -2,38 +2,36 @@
   import axios from 'axios';
   import Chart from 'svelte-frappe-charts';
   
-  let datachart;
-	
-	axios.get("https://api.npoint.io/93dee45ef70ce97af907/").then(res => {
-	datachart = res.data.chartdata.glovesl;
-	});
-
-  let data = {
-    labels: [],
-    datasets: [
-      {
-        values: []
-      }
-    ]
-  };
-
   let chartRef;
   
-  function updateData() {
-    data = {
-      labels: datachart.x,
-      datasets: [
-        {
-          values: datachart.y
-        }
-      ]
-    };
-  }
-  
-  setTimeout(() => {
-	updateData();
-  }, 5000);
-  
+  async function getData() {
+		const res = await axios.get("https://api.npoint.io/93dee45ef70ce97af907/");
+		const text = await res;
+
+		if (res.request.status == 200) {
+			let datax = {
+				labels: text.data.chartdata.glovesl.x,
+				datasets: [
+					{
+						values: text.data.chartdata.glovesl.y
+					}
+				]
+			};
+			return datax;
+		} else {
+			throw new Error("Gagal menggambar grafik pengeluaran handskun no steril L");
+		}
+	}
+	
+	let datanya = getData();
+
 </script>
 
-<Chart data={data} type="line" bind:this={chartRef} title="Pengeluaran Handskun Non Steril L"/>
+
+{#await datanya}
+	<p>Membuat grafik pengeluaran handskun non steril size L...</p>
+{:then data}
+	<Chart data={data} type="line" bind:this={chartRef} title="Pengeluaran Handskun Non Steril Size L" />
+{:catch error}
+	<p style="color: red">{error.message}</p>
+{/await}
