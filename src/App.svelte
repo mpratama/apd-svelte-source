@@ -8,6 +8,7 @@
 	import GlovesSChart from './GlovesSChart.svelte';
 	import GlovesMChart from './GlovesMChart.svelte';
 	import GlovesLChart from './GlovesLChart.svelte';
+	import HS75Chart from './HS75Chart.svelte';
 	import Footer from './Footer.svelte';
 	
 	let data;
@@ -29,6 +30,7 @@
 	<GlovesSChart />
 	<GlovesMChart />
 	<GlovesLChart />
+	<HS75Chart />
 </div>
 
 <Footer />
