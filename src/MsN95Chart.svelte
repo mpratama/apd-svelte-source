@@ -24,6 +24,7 @@
 	}
 	
 	let datanya = getData();
+	const onExport = () => chartRef.exportChart();
 
 </script>
 
@@ -32,6 +33,7 @@
 	<p>Membuat grafik pengeluaran N95 ...</p>
 {:then data}
 	<Chart data={data} type="line" bind:this={chartRef} title="Pengeluaran Masker N95" />
+	<a class="btn btn-a btn-sm smooth" on:click={onExport}>Download</a>
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}

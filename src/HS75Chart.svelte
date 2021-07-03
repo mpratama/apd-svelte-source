@@ -4,6 +4,7 @@
   
   let chartRef;
   
+  
   async function getData() {
 		const res = await axios.get("https://api.npoint.io/93dee45ef70ce97af907/");
 		const text = await res;
@@ -24,6 +25,7 @@
 	}
 	
 	let datanya = getData();
+	const onExport = () => chartRef.exportChart();
 
 </script>
 
@@ -31,7 +33,8 @@
 {#await datanya}
 	<p>Membuat grafik pengeluaran handskun steril 7.5</p>
 {:then data}
-	<Chart data={data} type="line" bind:this={chartRef} title="Pengeluaran Handskun Steril 7.5" />
+	<Chart data={data} type="line" bind:this={chartRef} title="Pengeluaran Handskun Steril 7-5" />
+	<a class="btn btn-a btn-sm smooth" on:click={onExport}>Download</a>
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}

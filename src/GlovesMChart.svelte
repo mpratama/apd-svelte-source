@@ -24,6 +24,7 @@
 	}
 	
 	let datanya = getData();
+	const onExport = () => chartRef.exportChart();
 
 </script>
 
@@ -32,6 +33,7 @@
 	<p>Membuat grafik pengeluaran handskun non steril size M...</p>
 {:then data}
 	<Chart data={data} type="line" bind:this={chartRef} title="Pengeluaran Handskun Non Steril Size M" />
+	<a class="btn btn-a btn-sm smooth" on:click={onExport}>Download</a>
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}
